@@ -8,6 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
-
+*chat_history*.txt
 api-key.txt
 *.DS_Store

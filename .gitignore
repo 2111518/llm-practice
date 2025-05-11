@@ -8,6 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+
+*.pkl
+*.index
+knowledge_files
 *chat_history*.txt
 api-key.txt
 *.DS_Store

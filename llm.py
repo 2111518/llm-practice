@@ -34,20 +34,29 @@ history_filename = f"chat_history_{start_time}.txt"
 
 def chat_with_gemini(user_input):
     if USE_FAISS:
-        # 取得嵌入向量並從 FAISS 查詢最相近內容
         query_vector = embedder.encode([user_input])
         top_k = 3
         D, I = index.search(query_vector, top_k)
-        retrieved_chunks = [docs[i] for i in I[0]]
-        context = "\n".join(retrieved_chunks)
-        prompt = f"你是一個聰明的 AI 助理，請根據以下資料回答問題：\n\n{context}\n\n問題：{user_input}"
+
+        # 判斷是否找到足夠相關的資料（以距離 D 判斷）
+        threshold = 0.75  # 距離閾值越小表示越相似
+        found = any(d < threshold for d in D[0])
+
+        if found:
+            retrieved_chunks = [docs[i] for i, d in zip(I[0], D[0]) if d < threshold]
+            context = "\n".join(retrieved_chunks)
+            prompt = f"你是一個聰明的 AI 助理，請根據以下資料回答問題：\n\n{context}\n\n問題：{user_input}"
+        else:
+            # 找不到相似資料，使用 fallback prompt
+            prompt = f"""找不到相關資料。請依你自己的知識回答以下問題：
+問題：{user_input}"""
     else:
         prompt = user_input
 
     response = chat.send_message(prompt)
     ai_reply = response.text
 
-    # 儲存對話紀錄
+    # 儲存對話
     with open(history_filename, "a", encoding="utf-8") as f:
         f.write(f"你：{user_input}\n\n")
         f.write(f"Gemini：{ai_reply}\n\n")

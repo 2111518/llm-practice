@@ -26,7 +26,8 @@ if USE_FAISS:
         data = pickle.load(f)
     docs = data["docs"]
     sources = data["sources"]
-    embedder = SentenceTransformer("all-MiniLM-L6-v2")
+    embedder = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
+    # embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 # --- 檔案儲存設定 ---
 start_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -34,7 +35,14 @@ history_filename = f"chat_history_{start_time}.txt"
 
 def chat_with_gemini(user_input):
     if USE_FAISS:
-        query_vector = embedder.encode([user_input])
+        query_vector = embedder.encode([user_input], convert_to_numpy=True)
+
+        if query_vector.ndim == 1:
+            query_vector = query_vector.reshape(1, -1)
+
+        assert query_vector.shape[1] == index.d, f"❌ 維度錯誤！查詢向量為 {query_vector.shape[1]}，索引為 {index.d}"
+
+        #D, I = index.search(query_vector, top_k)
         top_k = 5  # 可以調整成你希望的返回數量
         D, I = index.search(query_vector, top_k)
 

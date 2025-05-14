@@ -6,8 +6,8 @@ import fitz  # PyMuPDF
 import pandas as pd
 from docx import Document
 from sentence_transformers import SentenceTransformer
-
-embedder = SentenceTransformer("all-MiniLM-L6-v2")
+embedder = SentenceTransformer("paraphrase-multilingual-mpnet-base-v2")
+# embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 docs = []
 sources = []

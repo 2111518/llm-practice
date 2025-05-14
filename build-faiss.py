@@ -53,11 +53,9 @@ def read_json(path):
 def read_md(path):
     with open(path, "r", encoding="utf-8") as f:
         lines = f.readlines()
-    # 可略過 markdown 標記語法（如標題、連結等）或保留
     return [line.strip() for line in lines if line.strip()]
 
 def chunk_text(text, chunk_size=200, overlap=50):
-    """將長段文字切成重疊的小段落"""
     chunks = []
     start = 0
     while start < len(text):
@@ -67,7 +65,7 @@ def chunk_text(text, chunk_size=200, overlap=50):
         start += chunk_size - overlap
     return chunks
 
-# --- 主處理迴圈 ---
+# --- 主處理流程 ---
 
 for filename in os.listdir(knowledge_dir):
     path = os.path.join(knowledge_dir, filename)
@@ -88,25 +86,27 @@ for filename in os.listdir(knowledge_dir):
     else:
         print(f"⚠️ 不支援的檔案格式：{filename}")
         continue
-    
+
     for line in lines:
         if line.strip():
-            # 這裡進行 chunking（每 200 字一段，重疊 50 字）
             for chunk in chunk_text(line.strip(), chunk_size=200, overlap=50):
                 if chunk:
                     docs.append(chunk)
                     sources.append(filename)
 
-# --- 建立向量索引 ---
+# --- 向量化 ---
+print("📦 正在編碼向量...")
+doc_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
 
-doc_embeddings = embedder.encode(docs, convert_to_numpy=True)
-index = faiss.IndexFlatL2(doc_embeddings.shape[1])
+# --- 使用 IndexFlatL2 建立精確索引 ---
+d = doc_embeddings.shape[1]  # 向量維度
+index = faiss.IndexFlatL2(d)  # 精確搜尋（無需訓練）
 index.add(doc_embeddings)
 
-# 儲存
+# --- 儲存索引與來源資料 ---
 faiss.write_index(index, "faiss_index.index")
 with open("doc_sources.pkl", "wb") as f:
     pickle.dump({"docs": docs, "sources": sources}, f)
 
-print("✅ 多格式知識庫已完成！")
+print("✅ 使用 IndexFlatL2 建立完成並儲存！")
 

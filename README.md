@@ -1,7 +1,7 @@
 #### 如何使用
 使用 `git clone 本專案連結` 複製專案  
 ```bash
-cd llm-practice
+cd ~/llm-practice
 ```
 
 使用 pip/uv 安裝依賴庫  
@@ -12,11 +12,11 @@ cd llm-practice
 2. uv sync
 ```
 
-申請[Gemini](https://ai.google.dev/) 的api
+申請 [Gemini](https://ai.google.dev/) 的金鑰
 ```bash
 touch api-key.txt
 ```
-把金要貼到api-key.txt上
+把金鑰貼到api-key.txt上
 #### 依賴庫
 - faiss-cpu
 - google-generativeai

@@ -42,8 +42,7 @@ def chat_with_gemini(user_input):
 
         assert query_vector.shape[1] == index.d, f"❌ 維度錯誤！查詢向量為 {query_vector.shape[1]}，索引為 {index.d}"
 
-        #D, I = index.search(query_vector, top_k)
-        top_k = 5  # 可以調整成你希望的返回數量
+        top_k = 10  # 可以調整成你希望的返回數量
         D, I = index.search(query_vector, top_k)
 
         # 設定距離閾值（L2距離越小越相似）
@@ -73,15 +72,15 @@ def chat_with_gemini(user_input):
     return ai_reply
 
 if __name__ == "__main__":
-    print("🤖 Gemini Chat CLI 已啟動（輸入 'exit' 離開）")
+    print("🤖 Gemini Chat CLI 已啟動（輸入 'exit' 或 'quit' 離開）")
     if USE_FAISS:
-        print("📚 已啟用知識庫查詢（FAISS + RAG）模式\n")
+        print("📚 已啟用知識庫查詢模式\n")
     else:
         print("💬 使用純 LLM 模式（未啟用知識庫）\n")
 
     while True:
         user_input = input("你：")
-        if user_input.strip().lower() == "exit":
+        if user_input.strip().lower() == "exit" or user_input.strip().lower() == "quit":
             print(f"📄 對話已儲存為：{history_filename}")
             print("👋 再見！")
             break

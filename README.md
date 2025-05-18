@@ -1,4 +1,4 @@
-#### 如何使用
+### 如何使用
 1. 使用 `git clone 本專案連結` 複製專案  
 切換到專案的檔案夾  
 ```bash
@@ -19,12 +19,18 @@ touch api-key.txt
 ```
 把金鑰貼到 `api-key.txt` 上  
 
-4. 創建資料庫  
+4. (1) 使用RAG
+創建資料庫  
 ```bash
 mkdir knowledge_files
 ```
-將需要使用的資料放入 `knowledge_files`
-#### 依賴庫
+將需要使用的資料放入 `knowledge_files`  
+請執行 `build-faiss.py` ，接著執行`llm.py`
+
+4. (2)不使用RAG
+將 `llm.py` 的 `USE_FAISS` 改成 **False**
+
+### 依賴庫
 - faiss-cpu
 - google-generativeai
 - pandas

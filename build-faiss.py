@@ -9,7 +9,7 @@ from sentence_transformers import SentenceTransformer
 
 # --- 設定區 ---
 KNOWLEDGE_DIR = "knowledge_files"
-CHUNK_SIZE = 256
+CHUNK_SIZE = 250
 CHUNK_OVERLAP = 50
 INDEX_PATH = "faiss_index.index"
 SOURCE_PATH = "doc_sources.pkl"

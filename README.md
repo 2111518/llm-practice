@@ -10,7 +10,9 @@ cd ~/llm-practice
 ```bash
 1. pip install <依賴庫>  
 
-2. uv sync
+2. pip3 install <依賴庫>  
+
+3. uv sync
 ```
 
 3. 申請 [Gemini](https://ai.google.dev/) 的金鑰
@@ -25,10 +27,10 @@ touch api-key.txt
 mkdir knowledge_files
 ```
 將需要使用的資料放入 `knowledge_files`  
-請執行 `build-faiss.py` ，接著執行`llm.py`
+先執行 `build-faiss.py` ，接著執行`llm.py`
 
-4. (2)不使用RAG
-將 `llm.py` 的 `USE_FAISS` 改成 **False**
+4. (2)不使用RAG  
+將 `llm.py` 的 `USE_FAISS` 改成 **False** ，然後執行`llm.py`
 
 ### 依賴庫
 - faiss-cpu

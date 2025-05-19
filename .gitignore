@@ -12,6 +12,8 @@ wheels/
 *.pkl
 *.index
 knowledge_files
+*.jpg
+*.png
 *chat_history*.txt
 api-key.txt
 *.DS_Store

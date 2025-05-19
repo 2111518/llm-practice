@@ -34,12 +34,12 @@ mkdir knowledge_files
 4. (2) 不使用RAG  
 直接執行`llm.py`
 
-5. (1) 使用圖片辨識
+5. (1) 使用圖片辨識  
 把圖片放到專案資料夾下，將 USE_IMAGE 改成 **True** ，  
 輸入要辨識圖片格式為 `img: ./example.jpg 您的問題`  
 接著執行`llm.py`
 
-5. (2) 不使用圖片辨識
+5. (2) 不使用圖片辨識  
 直接執行 `llm.py`
 
 ### 依賴庫

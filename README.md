@@ -27,10 +27,20 @@ touch api-key.txt
 mkdir knowledge_files
 ```
 將需要使用的資料放入 `knowledge_files`  
-先執行 `build-faiss.py` ，接著執行`llm.py`
+先執行 `build-faiss.py`  
+將 `llm.py` 中 USE_FAISS 改成 **True**
+接著執行`llm.py`
 
-4. (2)不使用RAG  
-將 `llm.py` 的 `USE_FAISS` 改成 **False** ，然後執行`llm.py`
+4. (2) 不使用RAG  
+直接執行`llm.py`
+
+5. (1) 使用圖片辨識
+把圖片放到專案資料夾下，將 USE_IMAGE 改成 **True** ，  
+輸入要辨識圖片格式為 `img: ./example.jpg 您的問題`  
+接著執行`llm.py`
+
+5. (2) 不使用圖片辨識
+直接執行 `llm.py`
 
 ### 依賴庫
 - faiss-cpu
@@ -39,3 +49,4 @@ mkdir knowledge_files
 - pymupdf
 - python-docx
 - sentence-transformers
+- pillow

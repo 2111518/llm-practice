@@ -9,7 +9,7 @@ import io
 
 # --- 參數設定區 ---
 USE_FAISS = False             # ✅ 是否使用向量知識庫（RAG）
-USE_IMAGE = True              # ✅ 是否啟用圖片理解功能
+USE_IMAGE = False              # ✅ 是否啟用圖片理解功能
 API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
 SOURCE_FILE = "doc_sources.pkl"

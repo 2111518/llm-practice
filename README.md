@@ -8,11 +8,9 @@ cd ~/llm-practice
 2. 使用 pip/uv 安裝依賴庫  
 以下方法二選一
 ```bash
-1. pip install <依賴庫>  
+1. pip install <依賴庫> 或 pip3 install <依賴庫>  
 
-2. pip3 install <依賴庫>  
-
-3. uv sync
+2. uv sync
 ```
 
 3. 申請 [Gemini](https://ai.google.dev/) 的金鑰
@@ -35,8 +33,8 @@ mkdir knowledge_files
 直接執行`llm.py`
 
 5. (1) 使用圖片辨識  
-把圖片放到專案資料夾下，將 USE_IMAGE 改成 **True** ，  
-輸入要辨識圖片格式為 `img: ./example.jpg 您的問題`  
+把圖片放到專案資料夾下，將 `llm.py` 中的變數 USE_IMAGE 改成 **True** ，  
+輸入要辨識圖片，格式為 `img: ./example.jpg 您的問題`  
 接著執行`llm.py`
 
 5. (2) 不使用圖片辨識  

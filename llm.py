@@ -8,14 +8,14 @@ from PIL import Image
 import io
 
 # --- 參數設定區 ---
-USE_FAISS = False             # ✅ 是否使用向量知識庫（RAG）
-USE_IMAGE = False              # ✅ 是否啟用圖片理解功能
+USE_FAISS = True             # ✅ 是否使用向量知識庫(RAG)
+USE_IMAGE = False             # ✅ 是否啟用圖片理解功能
 API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
 SOURCE_FILE = "doc_sources.pkl"
 EMBEDDING_MODEL = "paraphrase-multilingual-mpnet-base-v2"
 TOP_K = 10
-L2_THRESHOLD = 0.75
+L2_THRESHOLD = 1
 
 # --- 初始化 API Key 與 Gemini 模型 ---
 if not os.path.exists(API_KEY_FILE):
@@ -68,9 +68,12 @@ def chat_with_gemini(user_input):
         valid_results = [(docs[i], sources[i], d) for i, d in zip(I[0], D[0]) if d < L2_THRESHOLD]
 
         if valid_results:
+            match_count = len(valid_results)
+            print(f"🔎 找到 {match_count} 筆相似資料")
             context = "\n".join(f"[{src}] {chunk}" for chunk, src, _ in valid_results)
             prompt = f"你是一個聰明的 AI 助理，請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
         else:
+            print("⚠️ 找不到相似資料，改以 LLM 模型知識回答")
             prompt = f"找不到相關資料。請依你自己的知識回答以下問題：\n問題：{user_input}"
     else:
         prompt = user_input

@@ -26,7 +26,7 @@ mkdir knowledge_files
 ```
 將需要使用的資料放入 `knowledge_files`  
 先執行 `build-faiss.py`  
-將 `llm.py` 中 USE_FAISS 改成 **True**
+將 `llm.py` 中 USE_FAISS 改成 **True**  
 接著執行`llm.py`
 
 4. (2) 不使用RAG  

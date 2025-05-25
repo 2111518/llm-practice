@@ -8,8 +8,10 @@ from PIL import Image
 import io
 
 # --- 參數設定區 ---
-USE_FAISS = True             # ✅ 是否使用向量知識庫(RAG)
-USE_IMAGE = False             # ✅ 是否啟用圖片理解功能
+# ✅ 是否使用向量知識庫(RAG)
+USE_FAISS = True
+# ✅ 是否啟用圖片理解功能
+USE_IMAGE = False
 API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
 SOURCE_FILE = "doc_sources.pkl"
@@ -64,8 +66,8 @@ def chat_with_gemini(user_input):
 
         assert query_vector.shape[1] == index.d, f"❌ 維度錯誤：查詢向量為 {query_vector.shape[1]}，索引為 {index.d}"
 
-        D, I = index.search(query_vector, TOP_K)
-        valid_results = [(docs[i], sources[i], d) for i, d in zip(I[0], D[0]) if d < L2_THRESHOLD]
+        D, Ia = index.search(query_vector, TOP_K)
+        valid_results = [(docs[i], sources[i], d) for i, d in zip(Ia[0], D[0]) if d < L2_THRESHOLD]
 
         if valid_results:
             match_count = len(valid_results)

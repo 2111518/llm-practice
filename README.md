@@ -29,7 +29,7 @@ touch api-key.txt
 mkdir knowledge_files
 ```
 將需要使用的資料放入 `knowledge_files`  
-先執行 `build-faiss.py`  
+先執行 `build-faiss.py` 或 `large-build-faiss.py`  
 將 `llm.py` 中 USE_FAISS 改成 **True**  
 接著執行`llm.py`
 
@@ -40,9 +40,8 @@ mkdir knowledge_files
 #### 5. 
 ##### (1) 使用圖片辨識  
 把圖片放到專案資料夾下，將 `llm.py` 中的變數 USE_IMAGE 改成 **True** ，  
-輸入要辨識圖片，格式為 `img: ./example.jpg 您的問題`  
-接著執行`llm.py`
-
+執行`llm.py`
+輸入要辨識圖片，格式為 `img: ./example.jpg 您的問題`
 ##### (2) 不使用圖片辨識  
 將 `llm.py` 中的變數 USE_IMAGE 改成 **False**  
 接著執行 `llm.py`

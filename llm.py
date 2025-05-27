@@ -8,14 +8,14 @@ from PIL import Image
 import io
 
 # --- 參數設定區 ---
-USE_FAISS = True  # ✅ 是否啟用知識庫搜尋（RAG）
+USE_FAISS = False  # 是否啟用知識庫搜尋（RAG）
 USE_IMAGE = False  # 是否啟用圖片理解
 API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
 SOURCE_FILE = "doc_sources.pkl"
 EMBEDDING_MODEL = "paraphrase-multilingual-mpnet-base-v2"
 TOP_K = 10
-NPROBE = 10  # ✅ 用於 IVFFlat 的查詢參數
+NPROBE = 10  # 用於 IVFFlat 的查詢參數
 
 # --- 初始化 API Key 與 Gemini 模型 ---
 if not os.path.exists(API_KEY_FILE):
@@ -71,9 +71,10 @@ def chat_with_gemini(user_input):
         valid_results = [(docs[i], sources[i], d) for i, d in zip(L[0], D[0]) if i != -1]
 
         if valid_results:
-            match_count = len(valid_results)
-            print(f"🔎 找到 {match_count} 筆相似資料（Top {TOP_K}）")
-            context = "\n".join(f"[{src}] {chunk}（距離: {dist:.2f}）" for chunk, src, dist in valid_results)
+            # match_count = len(valid_results)
+            # print(f"🔎 找到 {match_count} 筆相似資料（Top {TOP_K}）")
+            # context = "\n".join(f"[{src}] {chunk}（距離: {dist:.2f}）" for chunk, src, dist in valid_results)
+            context = "\n".join(f"[{src}] {chunk}" for chunk, src, _ in valid_results)
             prompt = f"你是一個聰明的 AI 助理，請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
         else:
             print("⚠️ 找不到相似資料，改以 LLM 模型知識回答")
@@ -88,9 +89,9 @@ def chat_with_gemini(user_input):
 if __name__ == "__main__":
     print("🤖 Gemini Chat CLI 已啟動（輸入 'exit' 或 'quit' 離開）")
     if USE_FAISS:
-        print("📚 已啟用知識庫查詢模式（IVFFlat + nprobe 設定）")
+        print("📚 已啟用知識庫查詢模式")
     else:
-        print("💬 使用純 LLM 模式（未啟用知識庫）")
+        print("💬 使用純 LLM 模式")
     if USE_IMAGE:
         print("🖼️ 圖片理解功能已啟用(使用格式：img: ./example.jpg 您的問題)")
     else:
@@ -120,5 +121,5 @@ if __name__ == "__main__":
             with open(history_filename, "a", encoding="utf-8") as f:
                 f.write(f"你：{user_input}\n\nGemini：{reply}\n\n")
         except Exception as e:
-            print(f"❌ 無法儲存對話紀錄：{str(e)}")
+            print(f"無法儲存對話紀錄：{str(e)}")
 

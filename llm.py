@@ -8,9 +8,9 @@ from PIL import Image
 import io
 
 # --- 參數設定區 ---
-# ✅ 是否使用向量知識庫(RAG)
-USE_FAISS = True
-# ✅ 是否啟用圖片理解功能
+# 是否使用向量知識庫(RAG)
+USE_FAISS = False
+# 是否啟用圖片理解功能
 USE_IMAGE = False
 API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
@@ -66,8 +66,8 @@ def chat_with_gemini(user_input):
 
         assert query_vector.shape[1] == index.d, f"❌ 維度錯誤：查詢向量為 {query_vector.shape[1]}，索引為 {index.d}"
 
-        D, Ia = index.search(query_vector, TOP_K)
-        valid_results = [(docs[i], sources[i], d) for i, d in zip(Ia[0], D[0]) if d < L2_THRESHOLD]
+        D, L = index.search(query_vector, TOP_K)
+        valid_results = [(docs[i], sources[i], d) for i, d in zip(L[0], D[0]) if d < L2_THRESHOLD]
 
         if valid_results:
             match_count = len(valid_results)
@@ -86,10 +86,15 @@ def chat_with_gemini(user_input):
 # --- 主互動介面 ---
 if __name__ == "__main__":
     print("🤖 Gemini Chat CLI 已啟動（輸入 'exit' 或 'quit' 離開）")
-    print("📚 已啟用知識庫查詢模式\n" if USE_FAISS else "💬 使用純 LLM 模式（未啟用知識庫）")
+    if USE_FAISS:
+        print("📚 已啟用知識庫查詢模式")
+    else:
+        print("未啟用知識庫查詢")
+    # print("📚 已啟用知識庫查詢模式\n" if USE_FAISS else "💬 使用純 LLM 模式（未啟用知識庫）")
     if USE_IMAGE:
-        print("🖼️ 圖片理解功能已啟用（使用格式：img: ./example.jpg 您的問題）\n")
-
+        print("🖼️ 圖片理解功能已啟用(使用格式：img: ./example.jpg 您的問題)")
+    else:
+        print("未啟用圖片理解功能")
     while True:
         user_input = input("您：").strip()
         if user_input.lower() in {"exit", "quit"}:

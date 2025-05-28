@@ -30,8 +30,16 @@ def read_pdf(path):
 def read_docx(path):
     return [para.text for para in Document(path).paragraphs if para.text.strip()]
 
+# def read_csv(path):
+#     return pd.read_csv(path).astype(str).values.flatten().tolist()
+
 def read_csv(path):
-    return pd.read_csv(path).astype(str).values.flatten().tolist()
+    df = pd.read_csv(path)
+    lines = []
+    for i, row in df.iterrows():
+        description = ", ".join(f"{col.strip()}：{str(val).strip()}" for col, val in row.items())
+        lines.append(f"第 {i+1} 筆資料：{description}")
+    return lines
 
 def read_txt(path):
     with open(path, "r", encoding="utf-8") as f:
@@ -100,3 +108,4 @@ with open(SOURCE_PATH, "wb") as f:
     pickle.dump({"docs": docs, "sources": sources}, f)
 
 print("✅ 向量索引建立與儲存完成！")
+

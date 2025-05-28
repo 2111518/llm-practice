@@ -30,8 +30,16 @@ def read_pdf(path):
 def read_docx(path):
     return [para.text for para in Document(path).paragraphs if para.text.strip()]
 
+# def read_csv(path):
+#     return pd.read_csv(path).astype(str).values.flatten().tolist()
+
 def read_csv(path):
-    return pd.read_csv(path).astype(str).values.flatten().tolist()
+    df = pd.read_csv(path)
+    lines = []
+    for i, row in df.iterrows():
+        description = ", ".join(f"{col.strip()}：{str(val).strip()}" for col, val in row.items())
+        lines.append(f"第 {i+1} 筆資料：{description}")
+    return lines
 
 def read_txt(path):
     with open(path, "r", encoding="utf-8") as f:
@@ -92,7 +100,7 @@ print("📦 正在編碼向量...")
 doc_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
 
 d = doc_embeddings.shape[1]  # 向量維度
-nlist = 100  # 聚類中心數量，可依資料量調整，資料越多nlist越大
+nlist = 20  # 聚類中心數量，可依資料量調整，資料越多nlist越大
 
 quantizer = faiss.IndexFlatL2(d)  # 用作聚類中心的精確索引
 index = faiss.IndexIVFFlat(quantizer, d, nlist, faiss.METRIC_L2)

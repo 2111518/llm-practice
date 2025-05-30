@@ -8,14 +8,14 @@ from PIL import Image
 import io
 
 # --- 參數設定區 ---
-USE_FAISS = False  # 是否啟用知識庫搜尋（RAG）
+USE_FAISS = False  # 是否啟用知識庫搜尋(RAG)
 USE_IMAGE = False  # 是否啟用圖片理解
 API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
 SOURCE_FILE = "doc_sources.pkl"
 EMBEDDING_MODEL = "paraphrase-multilingual-mpnet-base-v2"
 TOP_K = 10
-NPROBE = 10  # 用於 IVFFlat 的查詢參數
+NPROBE = 25  # 用於 IVFFlat 的查詢參數
 
 # --- 初始化 API Key 與 Gemini 模型 ---
 if not os.path.exists(API_KEY_FILE):
@@ -46,7 +46,7 @@ def chat_with_image(image_path, user_prompt):
 # --- FAISS 初始化 ---
 if USE_FAISS:
     index = faiss.read_index(INDEX_FILE)
-    index.nprobe = NPROBE  # ✅ 設定查詢範圍以提升命中率
+    index.nprobe = NPROBE  # V 設定查詢範圍以提升命中率
     with open(SOURCE_FILE, "rb") as f:
         data = pickle.load(f)
     docs = data["docs"]
@@ -67,7 +67,7 @@ def chat_with_gemini(user_input):
 
         D, L = index.search(query_vector, TOP_K)
 
-        # ✅ 保留所有有效結果，不使用距離閾值篩選
+        # V 保留所有有效結果，不使用距離閾值篩選
         valid_results = [(docs[i], sources[i], d) for i, d in zip(L[0], D[0]) if i != -1]
 
         if valid_results:
@@ -75,10 +75,10 @@ def chat_with_gemini(user_input):
             # print(f"🔎 找到 {match_count} 筆相似資料（Top {TOP_K}）")
             # context = "\n".join(f"[{src}] {chunk}（距離: {dist:.2f}）" for chunk, src, dist in valid_results)
             context = "\n".join(f"[{src}] {chunk}" for chunk, src, _ in valid_results)
-            prompt = f"你是一個聰明的 AI 助理，請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
+            prompt = f"請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
         else:
-            print("⚠️ 找不到相似資料，改以 LLM 模型知識回答")
-            prompt = f"找不到相關資料。請依你自己的知識回答以下問題：\n問題：{user_input}"
+            print("! 找不到相似資料，改以 LLM 模型知識回答")
+            prompt = f"請依你自己的知識回答以下問題：\n問題：{user_input}"
     else:
         prompt = user_input
 

@@ -100,7 +100,7 @@ print("📦 正在編碼向量...")
 doc_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
 
 d = doc_embeddings.shape[1]  # 向量維度
-nlist = 20  # 聚類中心數量，可依資料量調整，資料越多nlist越大
+nlist = 50  # 聚類中心數量，可依資料量調整，資料越多nlist越大
 
 quantizer = faiss.IndexFlatL2(d)  # 用作聚類中心的精確索引
 index = faiss.IndexIVFFlat(quantizer, d, nlist, faiss.METRIC_L2)

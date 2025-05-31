@@ -84,7 +84,7 @@ for filename in os.listdir(KNOWLEDGE_DIR):
     ext = os.path.splitext(filename)[1].lower()
 
     if ext not in READER_FUNCS:
-        print(f"⚠️ 不支援的檔案格式：{filename}")
+        print(f"! 不支援的檔案格式：{filename}")
         continue
 
     lines = READER_FUNCS[ext](path)
@@ -100,7 +100,7 @@ print("📦 正在編碼向量...")
 doc_embeddings = embedder.encode(docs, convert_to_numpy=True, show_progress_bar=True)
 
 d = doc_embeddings.shape[1]  # 向量維度
-nlist = 50  # 聚類中心數量，可依資料量調整，資料越多nlist越大
+nlist = 500  # 聚類中心數量，可依資料量調整，資料越多nlist越大
 
 quantizer = faiss.IndexFlatL2(d)  # 用作聚類中心的精確索引
 index = faiss.IndexIVFFlat(quantizer, d, nlist, faiss.METRIC_L2)

@@ -14,8 +14,8 @@ API_KEY_FILE = "api-key.txt"
 INDEX_FILE = "faiss_index.index"
 SOURCE_FILE = "doc_sources.pkl"
 EMBEDDING_MODEL = "paraphrase-multilingual-mpnet-base-v2"
-TOP_K = 10
-NPROBE = 25  # 用於 IVFFlat 的查詢參數
+TOP_K = 50
+NPROBE = 50  # 用於 IVFFlat 的查詢參數
 
 # --- 初始化 API Key 與 Gemini 模型 ---
 if not os.path.exists(API_KEY_FILE):

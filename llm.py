@@ -72,7 +72,7 @@ def chat_with_gemini(user_input):
 
         if valid_results:
             # match_count = len(valid_results)
-            # print(f"🔎 找到 {match_count} 筆相似資料（Top {TOP_K}）")
+            # print(f"找到 {match_count} 筆相似資料（Top {TOP_K}）")
             # context = "\n".join(f"[{src}] {chunk}（距離: {dist:.2f}）" for chunk, src, dist in valid_results)
             context = "\n".join(f"[{src}] {chunk}" for chunk, src, _ in valid_results)
             prompt = f"請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         user_input = input("您：").strip()
         if user_input.lower() in {"exit", "quit"}:
             print(f"📄 對話已儲存為：{history_filename}")
-            print("👋 再見！")
+            print("再見！")
             break
 
         if USE_IMAGE and user_input.startswith("img:"):

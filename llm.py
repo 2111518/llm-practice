@@ -78,7 +78,7 @@ def chat_with_gemini(user_input):
             prompt = f"請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
         else:
             print("! 找不到相似資料，改以 LLM 模型知識回答")
-            prompt = f"請依你自己的知識回答以下問題：\n問題：{user_input}"
+            prompt = f"請回答以下問題：\n{user_input}"
     else:
         prompt = user_input
 

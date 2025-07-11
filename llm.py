@@ -75,7 +75,7 @@ def chat_with_gemini(user_input):
             # print(f"找到 {match_count} 筆相似資料（Top {TOP_K}）")
             # context = "\n".join(f"[{src}] {chunk}（距離: {dist:.2f}）" for chunk, src, dist in valid_results)
             context = "\n".join(f"[{src}] {chunk}" for chunk, src, _ in valid_results)
-            prompt = f"請參考以下資料和你的知識回答問題：\n\n{context}\n\n問題：{user_input}"
+            prompt = f"請參考以下資料和你的知識回答問題：\n{context}\n\n問題：{user_input}"
         else:
             print("! 找不到相似資料，改以 LLM 模型知識回答")
             prompt = f"請回答以下問題：\n{user_input}"
@@ -87,11 +87,12 @@ def chat_with_gemini(user_input):
 
 # --- 主互動介面 ---
 if __name__ == "__main__":
-    print("🤖 Gemini Chat CLI 已啟動（輸入 'exit' 或 'quit' 離開）")
+    print("🤖 Gemini Chat CLI 已啟動(輸入 'exit' 或 'quit' 離開)")
     if USE_FAISS:
         print("📚 已啟用知識庫查詢模式")
     else:
         print("💬 使用純 LLM 模式")
+
     if USE_IMAGE:
         print("🖼️ 圖片理解功能已啟用(使用格式：img: ./example.jpg 您的問題)")
     else:

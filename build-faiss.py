@@ -84,7 +84,7 @@ for filename in os.listdir(KNOWLEDGE_DIR):
     ext = os.path.splitext(filename)[1].lower()
 
     if ext not in READER_FUNCS:
-        print(f"⚠️ 不支援的檔案格式：{filename}")
+        print(f"! 不支援的檔案格式: {filename}")
         continue
 
     lines = READER_FUNCS[ext](path)
@@ -107,5 +107,5 @@ faiss.write_index(index, INDEX_PATH)
 with open(SOURCE_PATH, "wb") as f:
     pickle.dump({"docs": docs, "sources": sources}, f)
 
-print("✅ 向量索引建立與儲存完成！")
+print("V 向量索引建立與儲存完成！")
 

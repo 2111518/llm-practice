@@ -111,7 +111,7 @@ assert doc_embeddings.shape[0] > nlist, "資料筆數必須大於聚類數 nlist
 print("⚙️ 正在訓練索引...")
 index.train(doc_embeddings)
 
-print("➕ 正在加入向量...")
+print("+ 正在加入向量...")
 index.add(doc_embeddings)
 
 # --- 儲存索引與對應來源 ---
@@ -119,5 +119,5 @@ faiss.write_index(index, INDEX_PATH)
 with open(SOURCE_PATH, "wb") as f:
     pickle.dump({"docs": docs, "sources": sources}, f)
 
-print("✅ 向量索引建立與儲存完成！")
+print("V 向量索引建立與儲存完成！")
 

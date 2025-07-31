@@ -19,7 +19,7 @@ NPROBE = 50  # 用於 IVFFlat 的查詢參數
 
 # --- 初始化 API Key 與 Gemini 模型 ---
 if not os.path.exists(API_KEY_FILE):
-    raise FileNotFoundError(f"找不到 API 金鑰檔案：{API_KEY_FILE}")
+    raise FileNotFoundError(f"找不到 API 金鑰檔案: {API_KEY_FILE}")
 
 with open(API_KEY_FILE, "r", encoding="utf-8") as f:
     api_key = f.read().strip()
@@ -63,7 +63,7 @@ def chat_with_gemini(user_input):
         query_vector = embedder.encode([user_input], convert_to_numpy=True)
         query_vector = query_vector.reshape(1, -1)
 
-        assert query_vector.shape[1] == index.d, f"維度錯誤：查詢向量為 {query_vector.shape[1]}，索引為 {index.d}"
+        assert query_vector.shape[1] == index.d, f"維度錯誤: 查詢向量為 {query_vector.shape[1]}，索引為 {index.d}"
 
         D, L = index.search(query_vector, TOP_K)
 
@@ -75,7 +75,7 @@ def chat_with_gemini(user_input):
             # print(f"找到 {match_count} 筆相似資料（Top {TOP_K}）")
             # context = "\n".join(f"[{src}] {chunk}（距離: {dist:.2f}）" for chunk, src, dist in valid_results)
             context = "\n".join(f"[{src}] {chunk}" for chunk, src, _ in valid_results)
-            prompt = f"請參考以下資料和你的知識回答問題：\n{context}\n問題：{user_input}"
+            prompt = f"請參考以下資料和你的知識回答問題: \n{context}\n問題: {user_input}"
         else:
             print("! 找不到相似資料，改以 LLM 模型知識回答")
             prompt = f"{user_input}"
@@ -101,8 +101,8 @@ if __name__ == "__main__":
     while True:
         user_input = input("您：").strip()
         if user_input.lower() in {"exit", "quit"}:
-            print(f"📄 對話已儲存為：{history_filename}")
-            print("再見！")
+            print(f"📄 對話已儲存為: {history_filename}")
+            # print("再見！")
             break
 
         if USE_IMAGE and user_input.startswith("img:"):
@@ -122,5 +122,5 @@ if __name__ == "__main__":
             with open(history_filename, "a", encoding="utf-8") as f:
                 f.write(f"你：{user_input}\n\nGemini：{reply}\n\n")
         except Exception as e:
-            print(f"無法儲存對話紀錄：{str(e)}")
+            print(f"無法儲存對話紀錄: {str(e)}")
 
